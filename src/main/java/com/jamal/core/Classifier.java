@@ -1,16 +1,7 @@
 package com.jamal.core;
+import java.io.Serializable;
 
-/**
- * The base interface for all JAMAL classification models.
- */
-public interface Classifier {
-    /**
-     * Trains the model on the provided dataset.
-     */
+public interface Classifier extends Serializable {
     void fit(double[][] features, int[] labels);
-
-    /**
-     * Predicts the class for a single input vector.
-     */
     int predict(double[] features);
 }
