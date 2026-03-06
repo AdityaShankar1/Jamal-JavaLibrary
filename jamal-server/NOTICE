@@ -1,0 +1,7 @@
+JAMAL Machine Learning Library (v1.0)
+Copyright 2026 Aditya Shankar
+
+This project was developed as a high-performance Java 21 ML suite 
+utilizing SIMD (Vector API) and Virtual Threads.
+
+Original Author: Aditya Shankar (https://github.com/AdityaShankar1)
