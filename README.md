@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" width="200" />
+</p>
+
 # JAMAL: Java Machine Learning Library 🚀
 
 **JAMAL** (Java Machine Learning) is a high-performance, enterprise-grade ML library built for **Java 21+**. It leverages **JDK Vector API (SIMD)** for hardware-accelerated math and **Virtual Threads** for massive parallelization of ensemble models.
