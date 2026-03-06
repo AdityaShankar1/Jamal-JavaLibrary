@@ -2,6 +2,10 @@
   <img src="assets/logo.png" width="200" />
 </p>
 
+JAMAL is open-source software licensed under the EPL 2.0. 
+You are free to use, modify, and distribute this library in any project— commercial or otherwise— provided that original attribution is maintained and modifications to the core library are shared back under the same terms.
+
+---
 # JAMAL: Java Machine Learning Library 🚀
 
 **JAMAL** (Java Machine Learning) is a high-performance, enterprise-grade ML library built for **Java 21+**. It leverages **JDK Vector API (SIMD)** for hardware-accelerated math and **Virtual Threads** for massive parallelization of ensemble models.
@@ -56,4 +60,5 @@ mvn clean install
 
 ---
 **License:** Distributed under the **Eclipse Public License 2.0**.
+
 *Created by Aditya Shankar - Exploring the limits of Modern Java for ML.*
