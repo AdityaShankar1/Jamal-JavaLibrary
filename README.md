@@ -1,58 +1,55 @@
 # JAMAL: Java Machine Learning Library 🚀
 
-**JAMAL** (Java Machine Learning) is a high-performance, lightweight "Scikit-Learn style" library built for **Java 21+**. It leverages the **JDK Vector API (SIMD)** to provide lightning-fast matrix math and modern concurrency for machine learning workflows.
+**JAMAL** (Java Machine Learning) is a high-performance, enterprise-grade ML library built for **Java 21+**. It leverages **JDK Vector API (SIMD)** for hardware-accelerated math and **Virtual Threads** for massive parallelization of ensemble models.
 
-## ✨ Features
-* **SIMD Accelerated:** Core math operations (Dot Product, Euclidean Distance) use hardware-level vectorization.
-* **Familiar API:** Uses the `fit` / `predict` pattern inspired by Scikit-Learn.
-* **Zero Dependencies:** Pure Java implementation with no heavy external jars.
-* **Standardization:** Built-in `StandardScaler` and `Dataset` loaders.
+[![Java 21+](https://img.shields.io/badge/Java-21%2B-blue.svg)](https://jdk.java.net/21/)
+[![License](https://img.shields.io/badge/License-EPL%202.0-orange.svg)](https://opensource.org/licenses/EPL-2.0)
 
-## 📦 Installation (Local)
-To use JAMAL in your own projects, clone this repo and install it to your local Maven repository:
-```bash
+## ✨ Why JAMAL?
+* **Hardware Accelerated:** Uses SIMD instructions to process data vectors at the CPU level.
+* **Modern Concurrency:** Parallelizes KNN searches and Random Forest training using lightweight Virtual Threads.
+* **Production Ready:** Includes model serialization (Save/Load) and comprehensive performance metrics.
+* **Zero Dependencies:** Pure Java. No bulky native binaries or external wrappers.
+
+## 🛠 Model Suite
+| Category | Model | Engine |
+| :--- | :--- | :--- |
+| **Ensemble** | **Random Forest** | Parallelized Decision Trees |
+| **Supervised** | **Decision Tree** | Gini Impurity Recursive Splitting |
+| **Supervised** | **KNN Classifier** | Vector-Accelerated Euclidean Space |
+| **Supervised** | **Naive Bayes** | Gaussian Probability Density |
+| **Supervised** | **Linear Regression** | Gradient Descent |
+| **Unsupervised** | **K-Means** | Centroid-based Clustering |
+
+## 🚀 Quick Start
+\`\`\`java
+// Load and Split Data
+Dataset data = Dataset.fromCsv("students.csv", true);
+Dataset[] split = data.split(0.2); // 80/20 Train-Test split
+
+// Train a Random Forest using all CPU cores
+Classifier forest = new RandomForest(numTrees: 10, maxDepth: 5);
+forest.fit(split[0].getFeatures(), split[0].getLabels());
+
+// Evaluate with built-in Metrics
+int[] preds = Arrays.stream(split[1].getFeatures()).mapToInt(forest::predict).toArray();
+Metrics.report(split[1].getLabels(), preds);
+
+// Save your model for deployment
+ModelLoader.save(forest, "model.jamal");
+\`\`\`
+
+## 📦 Installation
+\`\`\`bash
 git clone https://github.com/AdityaShankar1/Jamal-JavaLibrary.git
 cd Jamal-JavaLibrary
 mvn clean install
-```
-
-Then, add the dependency to your `pom.xml`:
-```xml
-<dependency>
-    <groupId>com.jamal</groupId>
-    <artifactId>jamal-ml</artifactId>
-    <version>1.0-SNAPSHOT</version>
-</dependency>
-```
-
-## 🚀 Quick Start
-```java
-// 1. Load Data
-Dataset data = Dataset.fromCsv("data.csv", true);
-
-// 2. Preprocess
-StandardScaler scaler = new StandardScaler();
-scaler.fit(data.getFeatures());
-double[][] x = scaler.transform(data.getFeatures());
-
-// 3. Train & Predict
-Classifier model = new KNNClassifier(k: 3);
-model.fit(x, data.getLabels());
-
-int prediction = model.predict(new double[]{5.1, 3.5});
-System.out.println("Result: " + prediction);
-```
-
-## 🛠 Included Models
-| Model | Type | Math Engine |
-| :--- | :--- | :--- |
-| **Linear Regression** | Regression/Classification | Gradient Descent |
-| **KNN Classifier** | Instance-based | Vectorized Euclidean |
-| **Naive Bayes** | Probabilistic | Gaussian Likelihood |
+\`\`\`
 
 ## ⚠️ Requirements
-* **Java 21+** (Uses Virtual Threads and Vector API)
-* **JVM Flag:** Must run with `--add-modules jdk.incubator.vector`
+* **Java 21+**
+* **JVM Flag:** Must run with \`--add-modules jdk.incubator.vector\`
 
 ---
-*Created by Aditya Shankar as a high-performance Java ML exploration.*
+**License:** Distributed under the **Eclipse Public License 2.0**.
+*Created by Aditya Shankar - Exploring the limits of Modern Java for ML.*
