@@ -1,13 +1,16 @@
 package com.jamal.core;
 
+/**
+ * The base interface for all JAMAL classification models.
+ */
 public interface Classifier {
     /**
-     * Train the model using features (X) and labels (y).
+     * Trains the model on the provided dataset.
      */
     void fit(double[][] features, int[] labels);
 
     /**
-     * Predict the label for a single set of features.
+     * Predicts the class for a single input vector.
      */
     int predict(double[] features);
 }

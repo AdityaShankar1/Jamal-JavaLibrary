@@ -1,8 +1,7 @@
 package com.jamal.core;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -17,7 +16,6 @@ public class KNNClassifier implements Classifier {
 
     @Override
     public void fit(double[][] features, int[] labels) {
-        // KNN is a "lazy" learner; we just store the data
         this.trainingX = features;
         this.trainingY = labels;
         System.out.println("JAMAL: KNN Model stored " + features.length + " data points.");
@@ -25,12 +23,20 @@ public class KNNClassifier implements Classifier {
 
     @Override
     public int predict(double[] features) {
-        // Calculate distances to all points using our VectorMath!
         double[] distances = new double[trainingX.length];
-        
-        for (int i = 0; i < trainingX.length; i++) {
-            // We'll use Euclidean distance (sqrt of sum of squared differences)
-            distances[i] = calculateEuclideanDistance(trainingX[i], features);
+
+        // Using Virtual Threads to parallelize distance calculations
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            List<CompletableFuture<Void>> futures = new ArrayList<>();
+            
+            for (int i = 0; i < trainingX.length; i++) {
+                final int index = i;
+                futures.add(CompletableFuture.runAsync(() -> {
+                    distances[index] = calculateEuclideanDistance(trainingX[index], features);
+                }, executor));
+            }
+            // Wait for all calculations to finish
+            CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
         }
 
         // Find the K nearest indices
@@ -48,20 +54,12 @@ public class KNNClassifier implements Classifier {
                 .collect(Collectors.groupingBy(label -> label, Collectors.counting()))
                 .entrySet().stream()
                 .max(Map.Entry.comparingByValue())
-                .get()
-                .getKey();
+                .map(Map.Entry::getKey)
+                .orElse(0);
     }
 
     private double calculateEuclideanDistance(double[] a, double[] b) {
-        // Use your high-performance VectorMath dot product logic!
-        // distance^2 = sum((a_i - b_i)^2)
-        double sum = 0;
-        // In a real version, we'd add a "squareDifference" method to VectorMath
-        // For now, let's keep it simple:
-        for (int i = 0; i < a.length; i++) {
-            double diff = a[i] - b[i];
-            sum += diff * diff;
-        }
-        return Math.sqrt(sum);
+        // This is where Vector API + Virtual Threads make a massive difference
+        return Math.sqrt(VectorMath.dotProductDifference(a, b));
     }
 }
