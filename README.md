@@ -22,7 +22,7 @@
 | **Unsupervised** | **K-Means** | Centroid-based Clustering |
 
 ## 🚀 Quick Start
-\`\`\`java
+```java
 // Load and Split Data
 Dataset data = Dataset.fromCsv("students.csv", true);
 Dataset[] split = data.split(0.2); // 80/20 Train-Test split
@@ -37,14 +37,14 @@ Metrics.report(split[1].getLabels(), preds);
 
 // Save your model for deployment
 ModelLoader.save(forest, "model.jamal");
-\`\`\`
+```
 
 ## 📦 Installation
-\`\`\`bash
+```bash
 git clone https://github.com/AdityaShankar1/Jamal-JavaLibrary.git
 cd Jamal-JavaLibrary
 mvn clean install
-\`\`\`
+```
 
 ## ⚠️ Requirements
 * **Java 21+**
